@@ -1,12 +1,45 @@
 "use client";
 
 export default function TranslateBar() {
+  // Get the original (non-translated) URL
+  function getOriginalUrl(): string {
+    const href = window.location.href;
+
+    // Check if we're on a Google Translate proxy (translate.goog domain)
+    if (window.location.hostname.includes('translate.goog')) {
+      // Extract original URL from the translated domain
+      // Format: https://example-com.translate.goog/path?_x_tr_sl=en&_x_tr_tl=es...
+      const originalHost = window.location.hostname
+        .replace('.translate.goog', '')
+        .replace(/-/g, '.');
+      return `https://${originalHost}${window.location.pathname}`;
+    }
+
+    // Check if we're on translate.google.com/translate?u=...
+    if (href.includes('translate.google.com/translate')) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const originalUrl = urlParams.get('u');
+      if (originalUrl) return originalUrl;
+    }
+
+    // Not on a translated page, return current URL
+    return href;
+  }
+
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const lang = e.target.value;
-    if (lang) {
-      const url = `https://translate.google.com/translate?sl=en&tl=${lang}&u=${encodeURIComponent(window.location.href)}`;
-      window.location.href = url;
+    if (!lang) return;
+
+    // If selecting English, go back to the original untranslated page
+    if (lang === 'en') {
+      window.location.href = getOriginalUrl();
+      return;
     }
+
+    // For other languages, translate via Google
+    const originalUrl = getOriginalUrl();
+    const url = `https://translate.google.com/translate?sl=en&tl=${lang}&u=${encodeURIComponent(originalUrl)}`;
+    window.location.href = url;
   }
 
   return (
@@ -21,7 +54,7 @@ export default function TranslateBar() {
         translate="no"
       >
         <option value="">Select Language</option>
-        <option value="en">🇬🇧 English (Back to English)</option>
+        <option value="en">🇬🇧 ENGLISH (Exit Translation)</option>
         <option value="af">Afrikaans</option>
         <option value="sq">Albanian (Shqip)</option>
         <option value="am">Amharic (አማርኛ)</option>
