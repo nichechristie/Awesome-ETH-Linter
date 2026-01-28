@@ -1,4 +1,4 @@
-name: "eth-spec-lint"
+name: "Awesome ETH Linter"
 description: "LLM-powered Ethereum spec drift detection"
 branding:
   icon: "shield"
