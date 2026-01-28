@@ -10,16 +10,18 @@ export default function TranslateBar() {
   }
 
   return (
-    <div className="flex items-center justify-center gap-3 border-b border-white/5 bg-white/[0.02] px-4 py-2 text-sm">
+    <div className="notranslate flex items-center justify-center gap-3 border-b border-white/5 bg-white/[0.02] px-4 py-2 text-sm" translate="no">
       <label htmlFor="language-select" className="text-slate-400">
-        Translate this page:
+        🌐 Translate / Traducir / 翻译 / Übersetzen:
       </label>
       <select
         id="language-select"
         onChange={handleChange}
-        className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-slate-300 outline-none transition-colors hover:border-purple-500/30 focus:border-purple-500/50"
+        className="notranslate rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-slate-300 outline-none transition-colors hover:border-purple-500/30 focus:border-purple-500/50"
+        translate="no"
       >
         <option value="">Select Language</option>
+        <option value="en">🇬🇧 English (Back to English)</option>
         <option value="af">Afrikaans</option>
         <option value="sq">Albanian (Shqip)</option>
         <option value="am">Amharic (አማርኛ)</option>
@@ -47,7 +49,6 @@ export default function TranslateBar() {
         <option value="dv">Dhivehi (ދިވެހި)</option>
         <option value="doi">Dogri (डोगरी)</option>
         <option value="nl">Dutch (Nederlands)</option>
-        <option value="en">English</option>
         <option value="eo">Esperanto</option>
         <option value="et">Estonian (Eesti)</option>
         <option value="ee">Ewe (Eʋegbe)</option>
